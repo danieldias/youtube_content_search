@@ -7,7 +7,7 @@ from YouTubeSearchFunction import search_excluding
 if __name__ == "__main__":
     queries = ["senna netflix serie"]
     exclude_keywords = ["teaser", "trailer"]
-    max_results = 50
+    max_results = 10
 
     # Create a directory to store results (optional: ensure the folder exists)
     import os
