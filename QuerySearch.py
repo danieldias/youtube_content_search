@@ -3,18 +3,25 @@ import yt_dlp
 from YouTubeSearchFunction import search_excluding
 
 
-#Download Data
+# Download Data
 if __name__ == "__main__":
-    query = "senna netflix series"
+    queries = ["senna netflix serie"]
     exclude_keywords = ["teaser", "trailer"]
     max_results = 50
 
-    # Get filtered results
-    filtered_results = search_excluding(query, exclude_keywords, max_results)
+    # Create a directory to store results (optional: ensure the folder exists)
+    import os
+    os.makedirs("results", exist_ok=True)
 
-    # Convert the filtered list to a DataFrame
-    df = pd.DataFrame(filtered_results)
+    # Loop over each query and process results
+    for query in queries:
+        # Get filtered results for the current query
+        filtered_results = search_excluding([query], exclude_keywords, max_results)
 
-    # Export to Excel (requires openpyxl or xlsxwriter)
-    df.to_excel(f"results/{query}_filtered_results.xlsx", index=False)
-    print(f"Saved {len(df)} filtered results to 'yt_dlp_filtered_results.xlsx'.")
+        # Convert the filtered list to a DataFrame
+        df = pd.DataFrame(filtered_results.get(query, []))
+
+        # Export to Excel (requires openpyxl or xlsxwriter)
+        filename = f"results/{query.replace(' ', '_')}_filtered_results.xlsx"
+        df.to_excel(filename, index=False)
+        print(f"Saved {len(df)} filtered results to '{filename}'.")
